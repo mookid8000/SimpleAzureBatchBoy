@@ -30,6 +30,12 @@ namespace SimpleAzureBatchBoy.Test
 
             var files = filePatterns.SelectMany(GetFiles).ToList();
 
+            if (!files.Any())
+            {
+                throw new ApplicationException(
+                    $"Could not find any files with the following file patterns: {string.Join(", ", filePatterns)} - please be sure to build SimpleAzureBatchBoy.Task first");
+            }
+
             Console.WriteLine($"Uploading to container '{containerName}'");
 
             var tasks = files.Select(async file =>
